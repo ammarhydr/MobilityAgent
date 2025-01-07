@@ -1,6 +1,35 @@
-# AutomatingTransportationPlanningWithAgentModels Crew
+# Mobility Agent
 
-Welcome to the AutomatingTransportationPlanningWithAgentModels Crew project, powered by [crewAI](https://crewai.com). This template is designed to help you set up a multi-agent AI system with ease, leveraging the powerful and flexible framework provided by crewAI. Our goal is to enable your agents to collaborate effectively on complex tasks, maximizing their collective intelligence and capabilities.
+Welcome to the MobilityAgent project, powered by [crewAI](https://crewai.com). 
+
+## Overview
+
+MobilityAgent is an advanced AI-powered transportation planning system that leverages multiple specialized agents to analyze and optimize traffic patterns in San Francisco. The system integrates synthetic trajectory generation with real-time traffic data to provide comprehensive mobility solutions.
+
+### Key Features
+
+- **Synthetic Trajectory Generation**: Uses MobilityGPT to create realistic traffic patterns and movement scenarios
+- **Real-Time Traffic Integration**: Incorporates live traffic data from Google Maps API
+- **Data Integration & Analysis**: Seamlessly merges synthetic and real-time data for comprehensive analysis
+- **Traffic Optimization**: Provides data-driven suggestions for improving traffic flow
+- **Route Quality Assessment**: Evaluates generated routes against real-world conditions
+
+### Agent Roles
+
+The system employs six specialized AI agents:
+
+1. **Coordination Specialist**: Orchestrates the overall analysis process and delegates tasks among other agents
+
+2. **Trajectory Generation Expert**: Creates synthetic traffic patterns using MobilityGPT, simulating various scenarios for specific road segments
+
+3. **Traffic Data Specialist**: Gathers and processes real-time traffic information from Google Maps API
+
+4. **Data Integration Specialist**: Combines synthetic trajectories with real-time data to create a unified view of traffic dynamics
+
+5. **Traffic Analysis Expert**: Analyzes the integrated data to identify optimization opportunities
+
+6. **Route Quality Evaluator**: Assesses the quality and efficiency of generated routes by comparing them with Google Maps data
+
 
 ## Installation
 
@@ -20,8 +49,6 @@ crewai install
 ```
 ### Customizing
 
-**Add your `OPENAI_API_KEY` into the `.env` file**
-
 - Modify `src/automating_transportation_planning_with_agent_models/config/agents.yaml` to define your agents
 - Modify `src/automating_transportation_planning_with_agent_models/config/tasks.yaml` to define your tasks
 - Modify `src/automating_transportation_planning_with_agent_models/crew.py` to add your own logic, tools and specific args
@@ -38,17 +65,3 @@ $ crewai run
 This command initializes the automating_transportation_planning_with_agent_models Crew, assembling the agents and assigning them tasks as defined in your configuration.
 
 This example, unmodified, will run the create a `report.md` file with the output of a research on LLMs in the root folder.
-
-## Understanding Your Crew
-
-The automating_transportation_planning_with_agent_models Crew is composed of multiple AI agents, each with unique roles, goals, and tools. These agents collaborate on a series of tasks, defined in `config/tasks.yaml`, leveraging their collective skills to achieve complex objectives. The `config/agents.yaml` file outlines the capabilities and configurations of each agent in your crew.
-
-## Support
-
-For support, questions, or feedback regarding the AutomatingTransportationPlanningWithAgentModels Crew or crewAI.
-- Visit our [documentation](https://docs.crewai.com)
-- Reach out to us through our [GitHub repository](https://github.com/joaomdmoura/crewai)
-- [Join our Discord](https://discord.com/invite/X4JWnZnxPb)
-- [Chat with our docs](https://chatg.pt/DWjSBZn)
-
-Let's create wonders together with the power and simplicity of crewAI.
