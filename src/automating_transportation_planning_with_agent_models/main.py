@@ -7,6 +7,7 @@ from automating_transportation_planning_with_agent_models.crew import Automating
 # Replace with inputs you want to test with, it will automatically
 # interpolate any tasks and agents information
 
+
 def run():
     """
     Run the crew.
