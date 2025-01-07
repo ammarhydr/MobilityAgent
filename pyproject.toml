@@ -1,0 +1,20 @@
+[project]
+name = "automating_transportation_planning_with_agent_models"
+version = "0.1.0"
+description = "automating_transportation_planning_with_agent_models using crewAI"
+authors = [{ name = "Ammar Haydari", email = "haydariammar@gmail.com" }]
+requires-python = ">=3.10,<=3.13"
+dependencies = [
+    "crewai[tools]>=0.86.0,<1.0.0"
+]
+
+[project.scripts]
+automating_transportation_planning_with_agent_models = "automating_transportation_planning_with_agent_models.main:run"
+run_crew = "automating_transportation_planning_with_agent_models.main:run"
+train = "automating_transportation_planning_with_agent_models.main:train"
+replay = "automating_transportation_planning_with_agent_models.main:replay"
+test = "automating_transportation_planning_with_agent_models.main:test"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
