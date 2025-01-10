@@ -1,0 +1,17 @@
+ # Core dependencies
+torch>=2.0.0
+pandas>=1.5.0
+numpy>=1.24.0
+tqdm>=4.65.0
+
+# CrewAI and related
+crewai>=0.1.0
+langchain>=0.1.0
+openai>=1.3.0
+
+# Utility packages
+python-dotenv>=1.0.0
+pyyaml>=6.0.1
+
+# Optional dependencies for development
+ipython>=8.12.0

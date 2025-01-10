@@ -28,8 +28,11 @@ def train():
         'road_segment_id': 'sample_value'
     }
     try:
-        AutomatingTransportationPlanningWithAgentModelsCrew().crew().train(n_iterations=int(sys.argv[1]), filename=sys.argv[2], inputs=inputs)
-
+        AutomatingTransportationPlanningWithAgentModelsCrew().crew().train(
+            n_iterations=int(sys.argv[1]), 
+            filename=sys.argv[2], 
+            inputs=inputs
+        )
     except Exception as e:
         raise Exception(f"An error occurred while training the crew: {e}")
 
@@ -39,7 +42,6 @@ def replay():
     """
     try:
         AutomatingTransportationPlanningWithAgentModelsCrew().crew().replay(task_id=sys.argv[1])
-
     except Exception as e:
         raise Exception(f"An error occurred while replaying the crew: {e}")
 
@@ -52,8 +54,11 @@ def test():
         'road_segment_id': 'sample_value'
     }
     try:
-        AutomatingTransportationPlanningWithAgentModelsCrew().crew().test(n_iterations=int(sys.argv[1]), openai_model_name=sys.argv[2], inputs=inputs)
-
+        AutomatingTransportationPlanningWithAgentModelsCrew().crew().test(
+            n_iterations=int(sys.argv[1]), 
+            openai_model_name=sys.argv[2], 
+            inputs=inputs
+        )
     except Exception as e:
         raise Exception(f"An error occurred while testing the crew: {e}")
 

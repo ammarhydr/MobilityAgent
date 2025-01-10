@@ -1,23 +1,20 @@
-from crewai import Agent, Crew, Process, Task
-from crewai.project import CrewBase, agent, crew, task
-from crewai_tools import JSONSearchTool
+from crewai import Agent, Task, Crew
+from .tools.mobility_inference_tool import MobilityInferenceTool
 
-@CrewBase
-class AutomatingTransportationPlanningWithAgentModelsCrew():
-    """AutomatingTransportationPlanningWithAgentModels crew"""
-
-    @agent
-    def agent_manager(self) -> Agent:
-        return Agent(
-            config=self.agents_config['agent_manager'],
-            
+class AutomatingTransportationPlanningWithAgentModelsCrew:
+    def __init__(self):
+        # Initialize the MobilityInference tool
+        self.mobility_tool = MobilityInferenceTool(
+            model_path="path/to/your/model.pt",
+            dataset="SF"
         )
 
     @agent
     def mobility_modeling_agent(self) -> Agent:
         return Agent(
             config=self.agents_config['mobility_modeling_agent'],
-            
+            tools=[self.mobility_tool],
+            verbose=True
         )
 
     @agent
@@ -47,7 +44,6 @@ class AutomatingTransportationPlanningWithAgentModelsCrew():
             config=self.agents_config['route_quality_assessment_agent'],
             
         )
-
 
     @task
     def convert_origin_input_task(self) -> Task:

@@ -31,37 +31,11 @@ The system employs six specialized AI agents:
 6. **Route Quality Evaluator**: Assesses the quality and efficiency of generated routes by comparing them with Google Maps data
 
 
-## Installation
-
-Ensure you have Python >=3.10 <=3.13 installed on your system. This project uses [UV](https://docs.astral.sh/uv/) for dependency management and package handling, offering a seamless setup and execution experience.
-
-First, if you haven't already, install uv:
-
-```bash
-pip install uv
-```
-
-Next, navigate to your project directory and install the dependencies:
-
-(Optional) Lock the dependencies and install them by using the CLI command:
-```bash
-crewai install
-```
 ### Customizing
 
 - Modify `src/automating_transportation_planning_with_agent_models/config/agents.yaml` to define your agents
 - Modify `src/automating_transportation_planning_with_agent_models/config/tasks.yaml` to define your tasks
 - Modify `src/automating_transportation_planning_with_agent_models/crew.py` to add your own logic, tools and specific args
 - Modify `src/automating_transportation_planning_with_agent_models/main.py` to add custom inputs for your agents and tasks
-
-## Running the Project
-
-To kickstart your crew of AI agents and begin task execution, run this from the root folder of your project:
-
-```bash
-$ crewai run
-```
-
-This command initializes the automating_transportation_planning_with_agent_models Crew, assembling the agents and assigning them tasks as defined in your configuration.
 
 This example, unmodified, will run the create a `report.md` file with the output of a research on LLMs in the root folder.
