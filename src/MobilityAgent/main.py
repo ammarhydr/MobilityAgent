@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import sys
-from automating_transportation_planning_with_agent_models.crew import AutomatingTransportationPlanningWithAgentModelsCrew
+from crew import MobilityAgentCrew
 
 # This main file is intended to be a way for your to run your
 # crew locally, so refrain from adding unnecessary logic into this file.
@@ -16,7 +16,7 @@ def run():
         'road_segment': 'sample_value',
         'road_segment_id': 'sample_value'
     }
-    AutomatingTransportationPlanningWithAgentModelsCrew().crew().kickoff(inputs=inputs)
+    MobilityAgentCrew().crew().kickoff(inputs=inputs)
 
 
 def train():
@@ -28,7 +28,7 @@ def train():
         'road_segment_id': 'sample_value'
     }
     try:
-        AutomatingTransportationPlanningWithAgentModelsCrew().crew().train(
+        MobilityAgentCrew().crew().train(
             n_iterations=int(sys.argv[1]), 
             filename=sys.argv[2], 
             inputs=inputs
@@ -41,7 +41,7 @@ def replay():
     Replay the crew execution from a specific task.
     """
     try:
-        AutomatingTransportationPlanningWithAgentModelsCrew().crew().replay(task_id=sys.argv[1])
+        MobilityAgentCrew().crew().replay(task_id=sys.argv[1])
     except Exception as e:
         raise Exception(f"An error occurred while replaying the crew: {e}")
 
@@ -54,7 +54,7 @@ def test():
         'road_segment_id': 'sample_value'
     }
     try:
-        AutomatingTransportationPlanningWithAgentModelsCrew().crew().test(
+        MobilityAgentCrew().crew().test(
             n_iterations=int(sys.argv[1]), 
             openai_model_name=sys.argv[2], 
             inputs=inputs

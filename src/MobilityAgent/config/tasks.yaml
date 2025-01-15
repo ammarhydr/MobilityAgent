@@ -14,23 +14,13 @@ generate_trajectories_task:
   context:
   - convert_origin_input_task
 fetch_traffic_data_task:
-  description: Fetch live traffic data for all generated trajectories using Google
-    Maps API for {road_segment_id}.
-  expected_output: Real-time traffic data for the trajectories originating from {road_segment_id}.
+  description: Fetch live traffic data for the trajectory using Google
+    Maps API.
+  expected_output: Real-time traffic data for the trajectory originating from {road_segment_id}.
   async_execution: false
   agent: real_time_traffic_integration_agent
   context:
   - generate_trajectories_task
-merge_datasets_task:
-  description: Merge synthetic trajectories with real-time traffic data, ensuring
-    data compatibility for {road_segment_id}.
-  expected_output: A merged dataset of synthetic trajectories and real-time traffic
-    data for {road_segment_id}.
-  async_execution: false
-  agent: data_integration_agent
-  context:
-  - generate_trajectories_task
-  - fetch_traffic_data_task
 analyze_traffic_data_task:
   description: Analyze merged data to suggest traffic optimizations for trajectories
     starting from {road_segment_id}.
@@ -39,7 +29,7 @@ analyze_traffic_data_task:
   async_execution: false
   agent: traffic_optimization_agent
   context:
-  - merge_datasets_task
+  - fetch_traffic_data_task
 evaluate_route_quality_task:
   description: Assess the quality of the generated routes using Google Maps API, focusing
     on trajectories starting from {road_segment_id}.
@@ -47,7 +37,8 @@ evaluate_route_quality_task:
   async_execution: false
   agent: route_quality_assessment_agent
   context:
-  - generate_trajectories_task
+  - analyze_traffic_data_task
+  - fetch_traffic_data_task
 generate_reports_task:
   description: Compile a detailed summary report and high-level suggestions for the
     analyzed trajectories starting from {road_segment_id}.
