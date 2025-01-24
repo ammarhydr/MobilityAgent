@@ -1,15 +1,14 @@
 import torch
 import random
 from mobilitygpt.model import GPT
-from mobilitygpt.utils import CfgNode as CN
+from mobilitygpt.config import get_base_config
 import pandas as pd
-from typing import List, Optional
+from typing import List
 
 class MobilityInference:
     def __init__(self, 
                  model_path: str,
-                 dataset: str = "SF",
-                 device: str = 'cuda' if torch.cuda.is_available() else 'cpu'):
+                 dataset: str = "SF"):
         """
         Initialize the MobilityInference model for generating synthetic trajectories.
         
@@ -18,7 +17,12 @@ class MobilityInference:
             dataset: Dataset name (default: "SF")
             device: Computing device to use (default: 'cuda' if available, else 'cpu')
         """
-        self.device = device
+
+        
+        # Initialize model configuration
+        self.config = get_base_config()
+
+        self.device = self.config.system.device 
         self.dataset = dataset
         
         # Load geography data
@@ -33,15 +37,15 @@ class MobilityInference:
         # Create adjacency matrix
         self.adj_matrix = self._create_adjacency_matrix(od_list)
         
-        # Initialize model configuration
-        self.config = self._init_model_config()
-        
         # Setup vocabulary
         self.EOS_TOKEN = '</S>'
         self.stoi = {ch: i for i, ch in enumerate(self.geo_ids)}
         self.itos = {i: ch for i, ch in enumerate(self.geo_ids)}
         self.stoi[self.EOS_TOKEN] = len(self.geo_ids)
         self.itos[len(self.geo_ids)] = self.EOS_TOKEN
+        
+        self.config.model.vocab_size = len(self.geo_ids)+1
+        self.config.model.block_size = self.config.data.block_size 
         
         # Initialize and load model
         self.model = self._init_model(model_path)
@@ -60,29 +64,17 @@ class MobilityInference:
         
         return adjacency_matrix.to(self.device)
 
-    def _init_model_config(self):
-        """Initialize model configuration."""
-        config = CN()
-        config.model_type = 'gpt-mobility'
-        config.vocab_size = len(self.geo_ids) + 1  # +1 for EOS token
-        config.block_size = 81
-        config.n_layer = 4
-        config.n_head = 4
-        config.n_embd = 128
-        config.device = self.device
-        return config
-
     def _init_model(self, model_path: str):
         """Initialize and load the model."""
-        model = GPT(self.config, adj_matrix=self.adj_matrix)
-        model.load_state_dict(torch.load(model_path, map_location=self.device))
+        model = GPT(self.config.model, adj_matrix=self.adj_matrix)
+        model.load_state_dict(torch.load(model_path, map_location=self.device, weights_only=True))
         model.to(self.device)
         model.eval()
         return model
 
     def generate_trajectories(self, 
                             origin_id: str, 
-                            num_trajectories: int = 100,
+                            num_trajectories: int = 1,
                             temperature: float = 1.0,
                             max_length: int = 81) -> List[List[int]]:
         """

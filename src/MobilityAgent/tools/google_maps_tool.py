@@ -1,6 +1,6 @@
 from crewai.tools import BaseTool
 from typing import Type, Optional, Dict
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 import requests
 import os
 from dotenv import load_dotenv
@@ -19,6 +19,9 @@ class GoogleMapsTool(BaseTool):
         "and traffic delays between two points."
     )
     args_schema: Type[BaseModel] = GoogleMapsInput
+    api_key: Optional[str] = None
+
+    model_config = ConfigDict(arbitrary_types_allowed=True)
     
     def __init__(self):
         super().__init__()
@@ -71,6 +74,7 @@ class GoogleMapsTool(BaseTool):
                     'steps': leg.get('steps', [])
                 }
             else:
+                print(f"Google Maps API Error: {data['status']}") 
                 return None
                 
         except requests.exceptions.RequestException as e:
@@ -116,4 +120,4 @@ class GoogleMapsTool(BaseTool):
             return output
             
         except Exception as e:
-            return f"Error fetching traffic data: {str(e)}" 
+            return f"Error fetching traffic data: {str(e)}"

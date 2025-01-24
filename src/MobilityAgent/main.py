@@ -13,8 +13,7 @@ def run():
     Run the crew.
     """
     inputs = {
-        'road_segment': 'sample_value',
-        'road_segment_id': 'sample_value'
+        'location_description': 'Pacific Ave & Powell St, San Francisco',
     }
     MobilityAgentCrew().crew().kickoff(inputs=inputs)
 
@@ -24,8 +23,7 @@ def train():
     Train the crew for a given number of iterations.
     """
     inputs = {
-        'road_segment': 'sample_value',
-        'road_segment_id': 'sample_value'
+        'location_description': 'sample_value',
     }
     try:
         MobilityAgentCrew().crew().train(
@@ -50,8 +48,7 @@ def test():
     Test the crew execution and returns the results.
     """
     inputs = {
-        'road_segment': 'sample_value',
-        'road_segment_id': 'sample_value'
+        'location_description': 'sample_value',
     }
     try:
         MobilityAgentCrew().crew().test(

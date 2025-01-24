@@ -1,12 +1,12 @@
 from crewai.tools import BaseTool
-from typing import Type, List
-from pydantic import BaseModel, Field
+from typing import Type, List, Optional, Any
+from pydantic import BaseModel, Field, ConfigDict
 from ..mobility_inference import MobilityInference
 
 class MobilityInferenceInput(BaseModel):
     """Input schema for MobilityInferenceTool."""
     origin_id: str = Field(..., description="Starting road segment ID for trajectory generation")
-    num_trajectories: int = Field(default=100, description="Number of trajectories to generate")
+    num_trajectories: int = Field(default=3, description="Number of trajectories to generate")
     temperature: float = Field(default=1.0, description="Sampling temperature (higher = more random)")
     max_length: int = Field(default=81, description="Maximum trajectory length")
 
@@ -18,7 +18,10 @@ class MobilityInferenceTool(BaseTool):
         "Input should be a road segment ID, and it will return a list of possible trajectories."
     )
     args_schema: Type[BaseModel] = MobilityInferenceInput
-    
+    inference_model: Optional[MobilityInference] = None
+
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
     def __init__(self, model_path: str, dataset: str = "SF"):
         super().__init__()
         self.inference_model = MobilityInference(
@@ -29,7 +32,7 @@ class MobilityInferenceTool(BaseTool):
     def _run(
         self, 
         origin_id: str, 
-        num_trajectories: int = 100,
+        num_trajectories: int = 5,
         temperature: float = 1.0,
         max_length: int = 81
     ) -> str:
@@ -66,4 +69,4 @@ class MobilityInferenceTool(BaseTool):
             return output
             
         except Exception as e:
-            return f"Error generating trajectories: {str(e)}" 
+            return f"Error generating trajectories: {str(e)}"

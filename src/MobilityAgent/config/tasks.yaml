@@ -1,51 +1,43 @@
 ---
 convert_origin_input_task:
-  description: Convert the natural language description of the origin location to
-    {road_segment_id} using the JSON file with road segment details.
-  expected_output: A {road_segment_id} corresponding to the natural language description
-    of the origin location.
+  description: Convert the natural {location_description} of the origin location to
+    its corresponding road segment id.
+  expected_output: Only a valid link_id, also known as road_segment_id, and nothing else.
   async_execution: false
-  agent: agent_manager
+  agent: location_translator_agent
+
 generate_trajectories_task:
-  description: Generate synthetic trajectories using MobilityGPT starting from {road_segment_id}.
-  expected_output: A set of synthetic trajectories originating from {road_segment_id}.
+  description: Generate synthetic trajectories using MobilityGPT starting from road_segment_id.
+  expected_output: A set of synthetic trajectories in sequence of road segments.
   async_execution: false
   agent: mobility_modeling_agent
   context:
   - convert_origin_input_task
+  
 fetch_traffic_data_task:
   description: Fetch live traffic data for the trajectory using Google
     Maps API.
-  expected_output: Real-time traffic data for the trajectory originating from {road_segment_id}.
+  expected_output: Real-time traffic data for the generated trajectory.
   async_execution: false
   agent: real_time_traffic_integration_agent
   context:
   - generate_trajectories_task
-analyze_traffic_data_task:
-  description: Analyze merged data to suggest traffic optimizations for trajectories
-    starting from {road_segment_id}.
-  expected_output: Traffic optimization suggestions based on the merged dataset for
-    {road_segment_id}.
-  async_execution: false
-  agent: traffic_optimization_agent
-  context:
-  - fetch_traffic_data_task
+
 evaluate_route_quality_task:
   description: Assess the quality of the generated routes using Google Maps API, focusing
-    on trajectories starting from {road_segment_id}.
-  expected_output: A quality assessment report for the routes generated from {road_segment_id}.
+    on sequence of road segment from the trajectory. Do not made up anything and only rely on the input trajectories. 
+  expected_output: A quality assessment report for the trajectory routes.
   async_execution: false
   agent: route_quality_assessment_agent
   context:
-  - analyze_traffic_data_task
   - fetch_traffic_data_task
+  
 generate_reports_task:
-  description: Compile a detailed summary report and high-level suggestions for the
-    analyzed trajectories starting from {road_segment_id}.
-  expected_output: A comprehensive report with traffic analysis and optimization suggestions
-    for {road_segment_id}.
+  description: Compile a detailed summary report and high-level suggestions for San Francisco city and the
+    generated trajectories.
+  expected_output: A comprehensive report with traffic analysis and optimization suggestions.
   async_execution: false
-  agent: agent_manager
+  agent: information_compiler_agent
   context:
-  - analyze_traffic_data_task
   - evaluate_route_quality_task
+  - fetch_traffic_data_task

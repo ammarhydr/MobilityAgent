@@ -1,8 +1,14 @@
 from crewai import Agent, Task, Crew, Process
-from crewai.tools import JSONSearchTool
-from .tools.mobility_inference_tool import MobilityInferenceTool
-from .tools.google_maps_tool import GoogleMapsTool
+from crewai.project import CrewBase, agent, crew, task
+from src.mobilityagent.tools.mobility_inference_tool import MobilityInferenceTool
+from src.mobilityagent.tools.google_maps_tool import GoogleMapsTool
+from src.mobilityagent.tools.route_quality_tool import RouteQualityTool
+from src.mobilityagent.tools.location_link_tool import LocationToLinkTool
+from src.mobilityagent.tools.link_location_tool import LinkToLocationTool
+from crewai_tools import SerperDevTool
 
+
+@CrewBase
 class MobilityAgentCrew:
     agents_config = 'config/agents.yaml'
     tasks_config = 'config/tasks.yaml'
@@ -10,16 +16,22 @@ class MobilityAgentCrew:
     def __init__(self):
         # Initialize the MobilityInference tool
         self.mobility_tool = MobilityInferenceTool(
-            model_path="path/to/your/model.pt",
+            model_path="mobilitygpt/model.pt",
             dataset="SF"
         )
         self.google_maps_tool = GoogleMapsTool()
+        self.route_quality_tool = RouteQualityTool()
+        self.serper_tool = SerperDevTool()
+        self.location2link_tool = LocationToLinkTool(
+            graph_path="SF-Taxi/graph.csv")
+        self.link2location_tool = LinkToLocationTool(
+             graph_path="SF-Taxi/graph.csv")
 
     @agent
-    def agent_manager(self) -> Agent:
+    def location_translator_agent(self) -> Agent:
         return Agent(
-            config=self.agents_config['agent_manager'],
-            tools=[self.mobility_tool],
+            config=self.agents_config['location_translator_agent'],
+            tools=[self.location2link_tool],
             verbose=True
         )
 
@@ -35,37 +47,31 @@ class MobilityAgentCrew:
     def real_time_traffic_integration_agent(self) -> Agent:
         return Agent(
             config=self.agents_config['real_time_traffic_integration_agent'],
-            tools=[self.google_maps_tool],
+            tools=[self.google_maps_tool, self.link2location_tool],
             verbose=True
-        )
-
-    @agent
-    def traffic_optimization_agent(self) -> Agent:
-        return Agent(
-            config=self.agents_config['traffic_optimization_agent'],
-            
         )
 
     @agent
     def route_quality_assessment_agent(self) -> Agent:
         return Agent(
             config=self.agents_config['route_quality_assessment_agent'],
-            
+            tools=[self.route_quality_tool],
+            verbose=True
         )
 
     @agent
     def information_compiler_agent(self) -> Agent:
         return Agent(
             config=self.agents_config['information_compiler_agent'],
-            
+            tools=[self.serper_tool],
+            verbose=True
         )
 
     @task
     def convert_origin_input_task(self) -> Task:
         return Task(
             config=self.tasks_config['convert_origin_input_task'],
-            tools=[JSONSearchTool()],
-            agent=self.agent_manager()
+            agent=self.location_translator_agent()
         )
 
     @task
@@ -80,13 +86,6 @@ class MobilityAgentCrew:
         return Task(
             config=self.tasks_config['fetch_traffic_data_task'],
             agent=self.real_time_traffic_integration_agent()
-        )
-
-    @task
-    def analyze_traffic_data_task(self) -> Task:
-        return Task(
-            config=self.tasks_config['analyze_traffic_data_task'],
-            agent=self.traffic_optimization_agent()
         )
 
     @task
