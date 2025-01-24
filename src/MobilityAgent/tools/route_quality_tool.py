@@ -8,8 +8,8 @@ from dotenv import load_dotenv
 
 class Coordinate(BaseModel):
     """Schema for coordinate pairs"""
-    lat: float = Field(..., description="Latitude", alias="latitude")
-    lon: float = Field(..., description="Longitude", alias="longitude")
+    latitude: float = Field(..., description="Latitude", alias="latitude")
+    longitude: float = Field(..., description="Longitude", alias="longitude")
     
     model_config = ConfigDict(populate_by_name=True)
 
