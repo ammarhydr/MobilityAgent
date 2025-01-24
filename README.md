@@ -1,6 +1,6 @@
 # MobilityAgent
 
-MobilityAgent is an AI-powered transportation analysis system built on [crewAI](https://crewai.com) that leverages [MobilityGPT](https://github.com/AmmarHaydari/MobilityGPT) for trajectory generation and integrates real-time traffic data for comprehensive mobility solutions in San Francisco.
+MobilityAgent is an AI-powered transportation analysis system built on [crewAI](https://crewai.com) that leverages [MobilityGPT](https://github.com/ammarhydr/MobilityGPT) for trajectory generation and integrates real-time traffic data for comprehensive mobility solutions in San Francisco.
 
 ## Architecture Overview
 
@@ -44,8 +44,18 @@ MobilityAgent employs a multi-agent system architecture where specialized AI age
 - Google Maps API key
 - MobilityGPT model
 
-## Running
+## Installation
 
+1. Create and activate a new virtual environment:
+```bash
+python -m venv .venv
+source .venv/bin/activate 
+
+pip install -e .
+```
+
+
+## Usage
 
 ```bash
 python src/mobilityagent/main.py run  
