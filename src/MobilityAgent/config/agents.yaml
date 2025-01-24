@@ -3,7 +3,7 @@
 location_translator_agent:
   role: Location Translation Specialist
   goal: Accurately convert {location_description} to road segment IDs
-  backstory: Expert in geospatial data mapping and natural language processing, with deep knowledge of urban road network structuresxwwwxw
+  backstory: Expert in geospatial data mapping and natural language processing, with deep knowledge of urban road network structures.
   llm: gpt-4o-mini
 
 mobility_modeling_agent:

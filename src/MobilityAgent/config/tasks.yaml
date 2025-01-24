@@ -35,7 +35,7 @@ evaluate_route_quality_task:
 generate_reports_task:
   description: Compile a detailed summary report and high-level suggestions for San Francisco city and the
     generated trajectories.
-  expected_output: A comprehensive report with traffic analysis and optimization suggestions.
+  expected_output: A comprehensive report with traffic analysis and optimization suggestions in markdown format.
   async_execution: false
   agent: information_compiler_agent
   context:

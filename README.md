@@ -1,41 +1,52 @@
-# Mobility Agent
+# MobilityAgent
 
-Welcome to the MobilityAgent project, powered by [crewAI](https://crewai.com). 
+MobilityAgent is an AI-powered transportation analysis system built on [crewAI](https://crewai.com) that leverages [MobilityGPT](https://github.com/AmmarHaydari/MobilityGPT) for trajectory generation and integrates real-time traffic data for comprehensive mobility solutions in San Francisco.
 
-## Overview
+## Architecture Overview
 
-MobilityAgent is an advanced AI-powered transportation planning system that leverages multiple specialized agents to analyze and optimize traffic patterns in San Francisco. The system integrates synthetic trajectory generation with real-time traffic data to provide comprehensive mobility solutions.
+MobilityAgent employs a multi-agent system architecture where specialized AI agents work together to:
+1. Convert natural language locations to road segments
+2. Generate synthetic trajectories using MobilityGPT
+3. Integrate real-time traffic data
+4. Assess route quality
+5. Compile comprehensive reports
 
-### Key Features
+### Agent Roles & Responsibilities
 
-- **Synthetic Trajectory Generation**: Uses MobilityGPT to create realistic traffic patterns and movement scenarios
-- **Real-Time Traffic Integration**: Incorporates live traffic data from Google Maps API
-- **Data Integration & Analysis**: Seamlessly merges synthetic and real-time data for comprehensive analysis
-- **Traffic Optimization**: Provides data-driven suggestions for improving traffic flow
-- **Route Quality Assessment**: Evaluates generated routes against real-world conditions
+- **Location Translation Specialist**
+  - Converts natural language addresses to road segment IDs
+  - Uses geospatial mapping and urban network knowledge
+  - Ensures accurate location interpretation
 
-### Agent Roles
+- **Trajectory Generation Expert**
+  - Leverages MobilityGPT for synthetic trajectory creation
+  - Simulates realistic traffic patterns
+  - Generates route variations based on historical data
 
-The system employs six specialized AI agents:
+- **Traffic Data Specialist**
+  - Integrates Google Maps API real-time data
+  - Monitors current traffic conditions
+  - Enriches synthetic trajectories with live data
 
-1. **Coordination Specialist**: Orchestrates the overall analysis process and delegates tasks among other agents
+- **Route Quality Evaluator**
+  - Assesses generated routes against real-world conditions
+  - Analyzes metrics like distance accuracy and time efficiency
+  - Provides quality scores for trajectories
 
-2. **Trajectory Generation Expert**: Creates synthetic traffic patterns using MobilityGPT, simulating various scenarios for specific road segments
+- **Transportation Data Integration Specialist**
+  - Compiles analyses into actionable reports
+  - Generates optimization suggestions
+  - Creates markdown-formatted comprehensive summaries
 
-3. **Traffic Data Specialist**: Gathers and processes real-time traffic information from Google Maps API
+## Prerequisites
 
-4. **Data Integration Specialist**: Combines synthetic trajectories with real-time data to create a unified view of traffic dynamics
+- Python 3.9+
+- Google Maps API key
+- MobilityGPT model
 
-5. **Traffic Analysis Expert**: Analyzes the integrated data to identify optimization opportunities
-
-6. **Route Quality Evaluator**: Assesses the quality and efficiency of generated routes by comparing them with Google Maps data
+## Running
 
 
-### Customizing
-
-- Modify `src/automating_transportation_planning_with_agent_models/config/agents.yaml` to define your agents
-- Modify `src/automating_transportation_planning_with_agent_models/config/tasks.yaml` to define your tasks
-- Modify `src/automating_transportation_planning_with_agent_models/crew.py` to add your own logic, tools and specific args
-- Modify `src/automating_transportation_planning_with_agent_models/main.py` to add custom inputs for your agents and tasks
-
-This example, unmodified, will run the create a `report.md` file with the output of a research on LLMs in the root folder.
+```bash
+python src/mobilityagent/main.py run  
+```
